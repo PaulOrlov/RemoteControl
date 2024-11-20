@@ -13,22 +13,22 @@ document.getElementById('connectButton').addEventListener('click', async () => {
         console.log('Connected to GATT server');
 
         const service = await server.getPrimaryService('12345678-1234-5678-1234-56789abcdef0');
-        const characteristic = await service.getCharacteristic('87654321-4321-6789-4321-6789abcdef01'); // Example characteristic UUID
+        const authCharacteristic = await service.getCharacteristic('87654321-4321-6789-4321-6789abcdef01'); // Example characteristic UUID for auth
+        const controlCharacteristic = await service.getCharacteristic('87654321-4321-6789-4321-6789abcdef02'); // Example characteristic UUID for control
 
         const encoder = new TextEncoder();
-        await characteristic.writeValue(encoder.encode(password));
+        await authCharacteristic.writeValue(encoder.encode(password));
         console.log('Password sent');
 
         document.getElementById('controlButtons').style.display = 'block';
-        console.log('here');
 
-        document.getElementById('leftButton').addEventListener('click', () => sendCommand(characteristic, 'left'));
-        document.getElementById('rightButton').addEventListener('click', () => sendCommand(characteristic, 'right'));
-        document.getElementById('forwardButton').addEventListener('click', () => sendCommand(characteristic, 'forward'));
-        document.getElementById('backwardButton').addEventListener('click', () => sendCommand(characteristic, 'backward'));
-        document.getElementById('stopButton').addEventListener('click', () => sendCommand(characteristic, 'stop'));
+        document.getElementById('leftButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'left'));
+        document.getElementById('rightButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'right'));
+        document.getElementById('forwardButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'forward'));
+        document.getElementById('backwardButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'backward'));
+        document.getElementById('stopButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'stop'));
 
-        document.addEventListener('keydown', (event) => handleKeyPress(event, characteristic));
+        document.addEventListener('keydown', (event) => handleKeyPress(event, controlCharacteristic));
 
     } catch (error) {
         console.error('Failed to connect', error);
