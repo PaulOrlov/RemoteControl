@@ -20,6 +20,7 @@ document.getElementById('connectButton').addEventListener('click', async () => {
         console.log('Password sent');
 
         document.getElementById('controlButtons').style.display = 'block';
+        console.log('here');
 
         document.getElementById('leftButton').addEventListener('click', () => sendCommand(characteristic, 'left'));
         document.getElementById('rightButton').addEventListener('click', () => sendCommand(characteristic, 'right'));
