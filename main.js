@@ -27,6 +27,7 @@ document.getElementById('connectButton').addEventListener('click', async () => {
         document.getElementById('forwardButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'forward'));
         document.getElementById('backwardButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'backward'));
         document.getElementById('stopButton').addEventListener('click', () => sendCommand(controlCharacteristic, 'stop'));
+        document.getElementById('disconnectButton').addEventListener('click', () => disconnectDevice(server));
 
         document.addEventListener('keydown', (event) => handleKeyPress(event, controlCharacteristic));
 
@@ -58,5 +59,13 @@ function handleKeyPress(event, characteristic) {
         case ' ':
             sendCommand(characteristic, 'stop');
             break;
+    }
+}
+
+function disconnectDevice(server) {
+    if (server && server.connected) {
+        server.disconnect();
+        console.log('Disconnected from GATT server');
+        document.getElementById('controlButtons').style.display = 'none';
     }
 }
